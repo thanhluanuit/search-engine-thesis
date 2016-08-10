@@ -11,4 +11,7 @@
 #
 class User < ActiveRecord::Base
   validates :user_name, :presence => true, :uniqueness => true
+
+  has_and_belongs_to_many :documents
+  has_and_belongs_to_many :annotations
 end

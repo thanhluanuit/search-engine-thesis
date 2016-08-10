@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160810142851) do
+ActiveRecord::Schema.define(version: 20160810151142) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,20 @@ ActiveRecord::Schema.define(version: 20160810142851) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "annotations_documents", id: false, force: :cascade do |t|
+    t.integer "annotation_id"
+    t.integer "document_id"
+  end
+
+  add_index "annotations_documents", ["annotation_id", "document_id"], name: "index_annotations_documents_on_annotation_id_and_document_id", using: :btree
+
+  create_table "annotations_users", id: false, force: :cascade do |t|
+    t.integer "annotation_id"
+    t.integer "user_id"
+  end
+
+  add_index "annotations_users", ["annotation_id", "user_id"], name: "index_annotations_users_on_annotation_id_and_user_id", using: :btree
+
   create_table "documents", force: :cascade do |t|
     t.string   "url"
     t.text     "description"
@@ -29,6 +43,13 @@ ActiveRecord::Schema.define(version: 20160810142851) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  create_table "documents_users", id: false, force: :cascade do |t|
+    t.integer "document_id"
+    t.integer "user_id"
+  end
+
+  add_index "documents_users", ["document_id", "user_id"], name: "index_documents_users_on_document_id_and_user_id", using: :btree
 
   create_table "tweets", force: :cascade do |t|
     t.string   "uri"
@@ -44,6 +65,14 @@ ActiveRecord::Schema.define(version: 20160810142851) do
     t.datetime "tweet_created_at"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "user_name"
+    t.string   "full_name"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
 end
