@@ -11,8 +11,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160516134004) do
+ActiveRecord::Schema.define(version: 20160810142851) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "annotations", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "documents", force: :cascade do |t|
+    t.string   "url"
+    t.text     "description"
+    t.text     "content"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "tweets", force: :cascade do |t|
+    t.string   "uri"
+    t.text     "text"
+    t.string   "expanded_url"
+    t.string   "display_url"
+    t.string   "url"
+    t.string   "user_name"
+    t.string   "lang"
+    t.string   "geo"
+    t.string   "source"
+    t.integer  "original_tweet_id", limit: 8
+    t.datetime "tweet_created_at"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
 end
