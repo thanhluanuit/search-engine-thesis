@@ -10,3 +10,8 @@ Features:
   - Add an association (n-n) between Document and Annotation
   - Add an association (n-n) between Document and User
   - Add an association (n-n) between Annotation and User
+
+## 0.1.3 (Thu Aug 11, 2016)
+Features:
+  - Build Twitter Crawler: Use Twitter Streamming API
+  - Build Graph Data: Documents, Annotations, Users

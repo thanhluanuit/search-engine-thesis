@@ -27,4 +27,3 @@ gem 'awesome_print'
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
 
 gem 'twitter'
-
