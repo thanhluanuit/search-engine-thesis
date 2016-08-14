@@ -16,6 +16,7 @@ class TwitterCrawler
     puts "Connecting to Twitter Streaming Client ..."
     begin
       @client.filter(SCOPE_FILTER) do |tweet|
+        puts "Streaming Tweet Data ..."
         Tweets::Add.call(tweet)
         GraphData.new(tweet).build
       end
