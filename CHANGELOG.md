@@ -15,3 +15,8 @@ Features:
 Features:
   - Build Twitter Crawler: Use Twitter Streamming API
   - Build Graph Data: Documents, Annotations, Users
+
+## 0.1.4 (Fri Aug 19, 2016)
+Features:
+  - Add elasticsearch gem - Using elasticsearch-2.3.5
+  - Add Searchable module for Document
