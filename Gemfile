@@ -30,3 +30,5 @@ gem 'twitter'
 
 gem 'elasticsearch-model', git: 'git://github.com/elasticsearch/elasticsearch-rails.git'
 gem 'elasticsearch-rails', git: 'git://github.com/elasticsearch/elasticsearch-rails.git'
+
+gem 'bootstrap-sass', '~> 3.3.5'
