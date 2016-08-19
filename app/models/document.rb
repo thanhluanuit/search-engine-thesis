@@ -10,6 +10,8 @@
 #  updated_at     :datetime         not null
 #
 class Document < ActiveRecord::Base
+  include Searchable
+
   validates :url, :presence => true
 
   has_and_belongs_to_many :users
