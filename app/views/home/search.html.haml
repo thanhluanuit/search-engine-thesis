@@ -1,1 +1,9 @@
-%p Search page ....
+.container.search-page
+  .row
+    .col-md-1
+      = link_to root_path do
+        = image_tag "search_icon.png", class: 'search-icon'
+    .col-md-6
+      = render "search_form"
+  %br
+  = render partial: "document", collection: @documents

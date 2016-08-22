@@ -2,8 +2,31 @@
   .title{
     padding-top: 150px;
     text-align: center;
+    h1{
+      display: inline-block;
+      padding-right: 15px;
+    }
   }
-  .search-form{
-    padding-top: 30px;
+}
+.search-form{
+  padding-top: 30px;
+  .form-control{
+    padding: 20px 16px;
+  }
+}
+.search-icon{
+  width: 40px;
+  padding-top: 30px;
+}
+.document{
+  .title{
+    color: #1a0dab;
+    font-size: 19px;
+    display: block;
+  }
+  .url{
+    color: #006621;
+    margin: 0;
+    overflow: hidden;
   }
 }

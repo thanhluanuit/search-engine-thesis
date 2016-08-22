@@ -1,0 +1,9 @@
+.document.row
+  .col-md-offset-1.col-md-8
+    %a.title{href: document.url, target: "_blank"}
+      = truncate(document.description, length: 50)
+    %p.url
+      =document.url
+    %p.description
+      = document.description
+%br
