@@ -1,0 +1,9 @@
+.home{
+  .title{
+    padding-top: 150px;
+    text-align: center;
+  }
+  .search-form{
+    padding-top: 30px;
+  }
+}
