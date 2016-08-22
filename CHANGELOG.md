@@ -20,3 +20,7 @@ Features:
 Features:
   - Add elasticsearch gem - Using elasticsearch-2.3.5
   - Add Searchable module for Document
+
+## 0.1.5 (Mon Aug 22, 2016)
+Features:
+  - Add search function and search page UI
