@@ -1,3 +1,3 @@
 = form_tag search_documents_path, method: :get, class: 'search-form' do
   .form-group
-    = text_field_tag :query, nil, placeholder: 'Enter keywords: Trump, news, football, Java ... ', class: 'form-control', autofocus: true
+    = text_field_tag :query, params[:query], placeholder: 'Enter keywords: Trump, news, football, Java ... ', class: 'form-control', autofocus: true

@@ -6,4 +6,6 @@
       =document.url
     %p.description
       = document.description
+    .tags
+      = render partial: "annotation", collection: document.annotations
 %br
