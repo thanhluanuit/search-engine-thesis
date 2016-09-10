@@ -7,12 +7,12 @@ module Searchable
 
     index_name ENV['ELASTICSEARCH_INDEX']
 
-    settings index: { number_of_shards: 1 } do
-      mappings dynamic: 'false' do
-        indexes :description, analyzer: 'english'
+    settings index: { number_of_shards: 1, number_of_replicas: 0 } do
+      mapping do
+        indexes :description, type: 'string', analyzer: 'standard'
 
-        indexes :annotations, type: 'nested' do
-          indexes :name, analyzer: 'snowball'
+        indexes :annotations, type: 'object' do
+          indexes :name, type: 'string', analyzer: 'standard'
         end
       end
     end
@@ -20,23 +20,37 @@ module Searchable
 
   def as_indexed_json(options={})
     as_json(
-      only: [:description],
       include: {
         annotations: { only: :name }
       }
     )
   end
 
-  def self.search(query) 
-    __elasticsearch__.search( 
-      {
-        query: {
-          multi_match: {
-            query: query,
-            fields: ["description", "annotations.name"]
+  module ClassMethods
+
+    def elasticsearch(query)
+      __elasticsearch__.search(dls_query(query))
+    end
+
+    private
+
+    def dls_query(query)
+      if query.blank?
+        {
+          query: {
+            match_all: {}
           }
         }
-      }
-    )
+      else
+        {
+          query: {
+            multi_match: {
+              query: query,
+              fields: ["annotations.name", "description"]
+            }
+          }
+        }
+      end
+    end
   end
 end
