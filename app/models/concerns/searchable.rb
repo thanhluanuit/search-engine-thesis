@@ -28,8 +28,8 @@ module Searchable
 
   module ClassMethods
 
-    def elasticsearch(query)
-      __elasticsearch__.search(dls_query(query))
+    def elasticsearch(params)
+      __elasticsearch__.search(dls_query(params[:query])).page(params[:page])
     end
 
     private

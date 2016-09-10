@@ -6,6 +6,8 @@
       =document.url
     %p.description
       = document.description
+    %p.score
+      = "Score: #{hit._score}"
     .tags
       = render partial: "annotation", collection: document.annotations
 %br

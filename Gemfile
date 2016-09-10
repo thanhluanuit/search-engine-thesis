@@ -7,6 +7,7 @@ gem 'pg'
 gem 'thin'
 
 gem 'sass-rails', '~> 5.0'
+gem 'bootstrap-sass', '~> 3.3.5'
 
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
@@ -28,7 +29,7 @@ gem 'dotenv-rails', :require => 'dotenv/rails-now'
 
 gem 'twitter'
 
+gem 'kaminari'
+
 gem 'elasticsearch-model', git: 'git://github.com/elasticsearch/elasticsearch-rails.git'
 gem 'elasticsearch-rails', git: 'git://github.com/elasticsearch/elasticsearch-rails.git'
-
-gem 'bootstrap-sass', '~> 3.3.5'
