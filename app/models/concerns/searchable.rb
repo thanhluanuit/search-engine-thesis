@@ -29,12 +29,12 @@ module Searchable
   module ClassMethods
 
     def elasticsearch(params)
-      __elasticsearch__.search(dls_query(params[:query])).page(params[:page])
+      __elasticsearch__.search(dls_query(params[:query], params[:user_profile])).page(params[:page])
     end
 
     private
 
-    def dls_query(query)
+    def dls_query(query, user_profile)
       if query.blank?
         {
           query: {
@@ -44,9 +44,19 @@ module Searchable
       else
         {
           query: {
-            multi_match: {
-              query: query,
-              fields: ["annotations.name", "description"]
+            bool: {
+              must: {
+                multi_match: {
+                  query: query,
+                  fields: ["annotations.name", "description"]
+                }
+              },
+              should:{
+                query_string: {
+                  query: user_profile,
+                  fields: ["annotations.name"]
+                }
+              }
             }
           }
         }
