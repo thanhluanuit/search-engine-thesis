@@ -16,4 +16,8 @@ class Document < ActiveRecord::Base
 
   has_and_belongs_to_many :users
   has_and_belongs_to_many :annotations
+
+  def from_date
+    (Time.current.to_date - created_at.to_date).to_i
+  end
 end

@@ -1,1 +1,1 @@
-= link_to "##{annotation.name}", search_documents_path(query: annotation.name)
+= link_to "##{annotation.name}", search_documents_path(query: annotation.name), class: "#{annotation.name.downcase == params[:query].downcase ? 'bg-color' : ''}"

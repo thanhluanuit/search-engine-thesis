@@ -1,13 +1,17 @@
 .document.row
-  .col-md-offset-1.col-md-8
+  .col-md-12
     %a.title{href: document.url, target: "_blank"}
-      = truncate(document.description, length: 50)
+      = truncate(document.description, length: 60, :separator => ' ')
     %p.url
       =document.url
     %p.description
       = document.description
     %p.score
-      = "Score: #{hit._score}"
+      %span
+        = "Score: #{hit._score}"
+      %span{style: "padding: 0 10px;"} -
+      %span
+        = "#{document.from_date} days ago."
     .tags
       = render partial: "annotation", collection: document.annotations
 %br
