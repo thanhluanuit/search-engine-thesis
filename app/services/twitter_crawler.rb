@@ -16,7 +16,7 @@ class TwitterCrawler
     puts "Connecting to Twitter Streaming Client ..."
     begin
       @client.filter(SCOPE_FILTER) do |tweet|
-        puts "Streaming Tweet Data ..."
+        print_data(tweet)
         Tweets::Add.call(tweet)
         GraphData.new(tweet).build
       end
@@ -31,5 +31,11 @@ class TwitterCrawler
       sleep 2
       self.run
     end
+  end
+
+  def print_data(tweet)
+    puts
+    puts "#{tweet.created_at} : #{tweet.text}"
+    puts
   end
 end
