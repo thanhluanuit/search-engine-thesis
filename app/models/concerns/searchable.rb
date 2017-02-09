@@ -9,7 +9,7 @@ module Searchable
 
     settings index: { number_of_shards: 1, number_of_replicas: 0 } do
       mapping do
-        indexes :description, type: 'string', analyzer: 'standard'
+        indexes :content, type: 'string', analyzer: 'standard'
 
         indexes :annotations, type: 'object' do
           indexes :name, type: 'string', analyzer: 'standard'
@@ -29,38 +29,100 @@ module Searchable
   module ClassMethods
 
     def elasticsearch(params)
-      __elasticsearch__.search(dls_query(params[:query], params[:user_profile])).page(params[:page])
+      __elasticsearch__.search(dls_query(params[:query])).page(params[:page])
     end
 
     private
 
-    def dls_query(query, user_profile)
-      if query.blank?
+    # Rank(d,q,u)  =  Sim(q, d)  +  Sim(q, S(d))  +  Sim(p(u), S(d))
+      # => Sim(q, d) : query with content
+      # => Sim(q, S(d)) : query with annotations of document
+      # => Sim(p(u), S(d)) : annotations of User with annotations of Document
+
+    def dls_query(queries)
+      if queries.present?
+        should_arr = search_condition(queries)
+        functions  = search_functions_score(queries)
         {
           query: {
-            match_all: {}
+            function_score: {
+              query: {
+                bool: {
+                  should: should_arr
+                }
+              },
+              functions: functions,
+              boost_mode: 'replace',
+              score_mode: 'sum'
+            }
           }
         }
       else
         {
           query: {
-            bool: {
-              must: {
-                multi_match: {
-                  query: query,
-                  fields: ["annotations.name", "description"]
-                }
-              },
-              should:{
-                query_string: {
-                  query: user_profile,
-                  fields: ["annotations.name"]
+            match_all: {}
+          }
+        }
+      end
+    end
+
+    def search_condition(queries)
+      should_arr = []
+      queries.split(' ').each do |query|
+        should_arr += [
+          {
+            query_string: {
+              query: query,
+              fields: %w[annotations.name],
+              default_operator: 'AND'
+            }
+          },
+          {
+            query_string: {
+              query: query,
+              fields: %w[content],
+              default_operator: 'AND'
+            }
+          }
+        ]
+      end
+      should_arr
+    end
+
+    def search_functions_score(queries)
+      functions = []
+      queries.split(' ').each do |query|
+        functions += [
+          filter_query(%w[annotations.name], query, 4),
+          filter_query(%w[content], query, 3)
+        ]
+      end
+      functions
+    end
+
+    def filter_query(fields, query, weight)
+      {
+        filter: {
+          query: {
+            filtered: {
+              query: {
+                bool: {
+                  must: [
+                    {
+                      query_string: {
+                        fields:           fields,
+                        default_operator: 'AND',
+                        query:            query
+                      }
+                    }
+                  ]
                 }
               }
             }
           }
-        }
-      end
+        },
+        weight: weight
+      }
     end
   end
 end
