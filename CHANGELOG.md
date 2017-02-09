@@ -24,3 +24,7 @@ Features:
 ## 0.1.5 (Mon Aug 22, 2016)
 Features:
   - Add search function and search page UI
+
+## 0.1.6 (Thu Feb 9, 2017)
+Features:
+  - Update search logic to ElasticSearch: Score by annotations and content
