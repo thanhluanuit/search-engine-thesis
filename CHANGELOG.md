@@ -28,3 +28,9 @@ Features:
 ## 0.1.6 (Thu Feb 9, 2017)
 Features:
   - Update search logic to ElasticSearch: Score by annotations and content
+
+## 0.1.7 (Sun Feb 12, 2017)
+Features:
+  - Change analyzer to 'english' in content indexes field.
+  - Change boost_mode to 'sum' - that mean is total score = elasticsearch score + my score
+
