@@ -28,29 +28,24 @@ module Searchable
   module ClassMethods
 
     def elasticsearch(params)
-      __elasticsearch__.search(dls_query(params[:query])).page(params[:page])
+      __elasticsearch__.search(query_dsl(params[:query])).page(params[:page])
     end
 
     private
 
-    # Rank(d,q,u)  =  Sim(q, d)  +  Sim(q, S(d))  +  Sim(p(u), S(d))
-      # => Sim(q, d) : query with content
-      # => Sim(q, S(d)) : query with annotations of document
-      # => Sim(p(u), S(d)) : annotations of User with annotations of Document
+    def query_dsl(queries)
+      query_dsl = Elasticsearch::QueryDsl.new(queries)
 
-    def dls_query(queries)
       if queries.present?
-        should_arr = search_condition(queries)
-        functions  = search_functions_score(queries)
         {
           query: {
             function_score: {
               query: {
                 bool: {
-                  should: should_arr
+                  should: query_dsl.get_conditions
                 }
               },
-              functions: functions,
+              functions: query_dsl.get_functions,
               boost_mode: 'sum',
               score_mode: 'sum'
             }
@@ -70,65 +65,6 @@ module Searchable
           }
         }
       end
-    end
-
-    def search_condition(queries)
-      should_arr = []
-      queries.split(' ').each do |query|
-        should_arr += [
-          {
-            query_string: {
-              query: query,
-              fields: %w[annotations.name],
-              default_operator: 'AND'
-            }
-          },
-          {
-            query_string: {
-              query: query,
-              fields: %w[content],
-              default_operator: 'AND'
-            }
-          }
-        ]
-      end
-      should_arr
-    end
-
-    def search_functions_score(queries)
-      functions = []
-      queries.split(' ').each do |query|
-        functions += [
-          filter_query(%w[annotations.name], query, 4),
-          filter_query(%w[content], query, 3)
-        ]
-      end
-      functions
-    end
-
-    def filter_query(fields, query, weight)
-      {
-        filter: {
-          query: {
-            filtered: {
-              query: {
-                bool: {
-                  must: [
-                    {
-                      query_string: {
-                        fields:           fields,
-                        default_operator: 'AND',
-                        query:            query
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        weight: weight
-      }
     end
   end
 end
