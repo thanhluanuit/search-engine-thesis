@@ -7,6 +7,11 @@
       .row
         .col-md-9
           = render "search_form"
+      .results
+        %span= "About #{@response.total_count} results (#{ ( @response.took.to_f / 1000 ).to_s } seconds)"
+      %br
+      %br
+
       - @response.records.each_with_hit do |document, hit|
         = render partial: "document", locals: { document: document, hit: hit }
       = paginate @response.records

@@ -9,8 +9,7 @@ module Searchable
 
     settings index: { number_of_shards: 1, number_of_replicas: 0 } do
       mapping do
-        indexes :content, type: 'string', analyzer: 'standard'
-
+        indexes :content, type: 'string', analyzer: 'english'
         indexes :annotations, type: 'object' do
           indexes :name, type: 'string', analyzer: 'standard'
         end
@@ -52,7 +51,7 @@ module Searchable
                 }
               },
               functions: functions,
-              boost_mode: 'replace',
+              boost_mode: 'sum',
               score_mode: 'sum'
             }
           },
