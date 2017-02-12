@@ -55,6 +55,13 @@ module Searchable
               boost_mode: 'replace',
               score_mode: 'sum'
             }
+          },
+          highlight: {
+            pre_tags: ['<b><span>'],
+            post_tags: ['</span></b>'],
+            fields: {
+              content: { fragment_size: 1000 }
+            }
           }
         }
       else
