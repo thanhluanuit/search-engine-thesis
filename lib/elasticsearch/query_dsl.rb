@@ -1,9 +1,10 @@
 module Elasticsearch
   class QueryDsl
-    attr_accessor :queries
+    attr_accessor :queries, :user_profile
 
-    def initialize(queries)
+    def initialize(queries, user_profile)
       @queries = queries
+      @user_profile = user_profile
     end
 
     def get_conditions
@@ -19,6 +20,17 @@ module Elasticsearch
           }
         ]
       end
+      user_profile.split(' ').each do |tag|
+        should_arr += [
+          {
+            query_string: {
+              query: tag,
+              fields: %w[annotations.name],
+              default_operator: 'AND'
+            }
+          }
+        ]
+      end
       should_arr
     end
 
@@ -28,6 +40,11 @@ module Elasticsearch
         functions += [
           filter_query(%w[annotations.name], query, 4),
           filter_query(%w[content], query, 3)
+        ]
+      end
+      user_profile.split(' ').each do |tag|
+        functions += [
+          filter_query(%w[annotations.name], tag, 2)
         ]
       end
       functions

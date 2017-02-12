@@ -28,15 +28,15 @@ module Searchable
   module ClassMethods
 
     def elasticsearch(params)
-      __elasticsearch__.search(query_dsl(params[:query])).page(params[:page])
+      __elasticsearch__.search(query_dsl(params)).page(params[:page])
     end
 
     private
 
-    def query_dsl(queries)
-      query_dsl = Elasticsearch::QueryDsl.new(queries)
+    def query_dsl(params)
+      query_dsl = Elasticsearch::QueryDsl.new(params[:query], params[:user_profile])
 
-      if queries.present?
+      if query_dsl.queries.present?
         {
           query: {
             function_score: {
