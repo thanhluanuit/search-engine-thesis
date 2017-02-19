@@ -1,5 +1,4 @@
 class TwitterCrawler
-
   SCOPE_FILTER = { language: "en", locations: "-180,-90,180,90" }
 
   def initialize

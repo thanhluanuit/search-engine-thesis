@@ -1,11 +1,11 @@
 .document.row
   .col-md-12
     %a.title{href: document.url, target: "_blank"}
-      = truncate(document.description, length: 90, :separator => ' ')
+      = truncate(document.decorate.get_title, length: 80, :separator => ' ')
     %p.url
-      =document.url
+      = truncate(document.url, length: 100, :separator => ' ')
     .description
-      = hit.try(:highlight).try(:content) ? hit.highlight.content.join.html_safe : document.content
+      = hit.try(:highlight).try(:content) ? hit.highlight.content.join.html_safe : truncate(document.content, length: 200, :separator => ' ')
     .tags
       = render partial: "annotation", collection: document.annotations
     %p.score
@@ -16,5 +16,5 @@
         = "#{document.from_date} days ago."
       %span{style: "padding: 0 10px;"} -
       %span
-        = "Doc ID: #{document.id}"
+        = "ID: #{document.id}"
 %br

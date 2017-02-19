@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161022134212) do
+ActiveRecord::Schema.define(version: 20170212164012) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,13 @@ ActiveRecord::Schema.define(version: 20161022134212) do
 
   add_index "annotations_documents", ["annotation_id", "document_id"], name: "index_annotations_documents_on_annotation_id_and_document_id", using: :btree
 
+  create_table "annotations_pages", id: false, force: :cascade do |t|
+    t.integer "annotation_id"
+    t.integer "page_id"
+  end
+
+  add_index "annotations_pages", ["annotation_id", "page_id"], name: "index_annotations_pages_on_annotation_id_and_page_id", using: :btree
+
   create_table "annotations_users", id: false, force: :cascade do |t|
     t.integer "annotation_id"
     t.integer "user_id"
@@ -43,6 +50,7 @@ ActiveRecord::Schema.define(version: 20161022134212) do
     t.text     "content"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "title"
   end
 
   create_table "documents_users", id: false, force: :cascade do |t|
@@ -51,6 +59,21 @@ ActiveRecord::Schema.define(version: 20161022134212) do
   end
 
   add_index "documents_users", ["document_id", "user_id"], name: "index_documents_users_on_document_id_and_user_id", using: :btree
+
+  create_table "pages", force: :cascade do |t|
+    t.string   "url"
+    t.text     "description"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.integer  "tweet_id",    limit: 8
+  end
+
+  create_table "pages_users", id: false, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "page_id"
+  end
+
+  add_index "pages_users", ["user_id", "page_id"], name: "index_pages_users_on_user_id_and_page_id", using: :btree
 
   create_table "tweets", force: :cascade do |t|
     t.string   "uri"

@@ -8,14 +8,18 @@
     }
   }
 }
+.search-page{
+  font-size: 15px;
+}
 .search-form{
-  padding: 30px 0;
+  padding: 30px 0 0;
 
   .form-group{
     padding: 0;
   }
   .form-control{
     padding: 20px 16px;
+    font-size: 15px;
   }
 }
 .search-icon{
@@ -32,6 +36,9 @@
     color: #006621;
     margin: 0;
     overflow: hidden;
+  }
+  .tags{
+    padding-top: 10px;
   }
 }
 .pagination{

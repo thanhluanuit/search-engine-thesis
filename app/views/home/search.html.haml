@@ -7,6 +7,10 @@
       .row
         .col-md-9
           = render "search_form"
+
+      .query_expansion
+        %h4= "Query expansion: \"#{@query_expansion}\""
+      %br
       .results
         %span= "About #{@response.total_count} results (#{ ( @response.took.to_f / 1000 ).to_s } seconds)"
       %br

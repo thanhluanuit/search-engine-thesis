@@ -28,10 +28,12 @@ gem 'awesome_print'
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
 
 gem 'twitter'
-
 gem 'kaminari'
 
 gem 'elasticsearch-model', git: 'git://github.com/elasticsearch/elasticsearch-rails.git'
 gem 'elasticsearch-rails', git: 'git://github.com/elasticsearch/elasticsearch-rails.git'
 
 gem 'flickraw'
+gem 'draper'
+gem 'nokogiri', '1.6.6.2'
+gem 'mechanize'

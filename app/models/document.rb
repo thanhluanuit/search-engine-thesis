@@ -12,7 +12,7 @@
 class Document < ActiveRecord::Base
   include Searchable
 
-  validates :url, :presence => true
+  validates :url, presence: true
 
   has_and_belongs_to_many :users
   has_and_belongs_to_many :annotations
